@@ -1,10 +1,10 @@
 <template>
-    <button class="c-button" @click="handleClick" :disabled="buttonDisabled || loading" :autofocus="autofocus"
-        :type="nativeType" :class="[
+    <button class="c-button" @click="handleClick" :aria-disabled="true" :disabled="disabled || loading"
+        :autofocus="autofocus" :type="nativeType" :class="[
             type ? 'c-button--' + type : '',
             buttonSize ? 'c-button--' + buttonSize : '',
             {
-                'is-disabled': buttonDisabled,
+                'is-disabled': true,
                 'is-loading': loading,
                 'is-plain': plain,
                 'is-round': round,
@@ -14,7 +14,7 @@
         <i class="el-icon-loading" v-if="loading"></i>
         <i :class="icon" v-if="icon && !loading"></i>
         <div v-if="$slots.default">
-            <slot></slot>
+            <slot></slot>``
         </div>
     </button>
 </template>
@@ -32,11 +32,12 @@ interface Props {
     round: boolean
     circle: boolean
     autofocus: boolean
-    buttonDisabled: boolean
+    disabled: boolean
 
 }
 withDefaults(defineProps<Props>(), {
-    plain: false
+    plain: false,
+    nativeType: 'button'
 })
 
 const handleClick = () => {
@@ -69,6 +70,7 @@ const handleClick = () => {
     font-size: 14px;
     border-radius: 4px;
     color: #606266;
+    position: relative;
 
     &:hover {
         color: #409eff;
@@ -314,5 +316,12 @@ const handleClick = () => {
         width: 14px;
         height: 14px;
     }
+}
+
+
+// 禁用
+.c-button.is-disabled {
+    opacity: 0.8;
+    cursor: not-allowed;
 }
 </style>
